@@ -44,6 +44,38 @@ router.get('/', (req, res) => {
 
 /**
  * @swagger
+ * /products/balance:
+ *   get:
+ *     summary: Get total inventory value
+ *     description: Returns the sum of price * quantity across all products.
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: Total inventory value
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalBalance:
+ *                   type: number
+ *                   description: Sum of price * quantity for all products. Returns 0 when list is empty.
+ *                   example: 1497.5
+ */
+router.get('/balance', (req, res) => {
+  // Compute with Number precision; handle empty array -> 0
+  const total = products.reduce((acc, p) => {
+    const price = typeof p.price === 'number' && Number.isFinite(p.price) ? p.price : 0;
+    const qty = typeof p.quantity === 'number' && Number.isFinite(p.quantity) ? p.quantity : 0;
+    return acc + price * qty;
+  }, 0);
+  // Ensure it's a Number, not NaN
+  const safeTotal = Number.isFinite(total) ? total : 0;
+  return res.status(200).json({ totalBalance: safeTotal });
+});
+
+/**
+ * @swagger
  * /products:
  *   post:
  *     summary: Create a product

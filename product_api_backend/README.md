@@ -20,6 +20,7 @@ Endpoints:
 - GET /products/:id
 - PUT /products/:id
 - DELETE /products/:id
+- GET /products/balance
 
 Curl examples:
 
@@ -41,6 +42,18 @@ curl -s -X PUT http://localhost:3001/products/1 \
 
 Delete product:
 curl -s -X DELETE http://localhost:3001/products/2 -i
+
+Get total inventory value (balance):
+curl -s http://localhost:3001/products/balance | jq .
+
+Response:
+{
+  "totalBalance": 0
+}
+
+Notes:
+- The balance is computed as the sum of price * quantity for all products.
+- Uses standard JavaScript Number precision; for empty lists returns 0.
 
 Validation notes:
 - name: non-empty string

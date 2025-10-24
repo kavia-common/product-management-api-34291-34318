@@ -1,7 +1,7 @@
 {
     "name": "minimal-express-app",
     "version": "1.0.0",
-    "description": "Minimal Express app with scalable structure",
+    "description": "Minimal Express app with scalable structure and Product CRUD API",
     "main": "src/server.js",
     "scripts": {
         "start": "node src/server.js",
@@ -28,6 +28,7 @@
             "node_modules",
             "package.json",
             "package-lock.json",
+            "post_process_status.lock",
             "*.lock",
             "*.log",
             "*.md",
